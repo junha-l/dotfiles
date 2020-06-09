@@ -1,20 +1,58 @@
-# Install NeoVIM
-apt install neovim python3-neovim
+# display a message in red with a cross by it
+# example
+# echo echo_fail "No"
+function echo_fail {
+  # echo first argument in red
+  printf "\e[31m✘ ${1}"
+  # reset colours back to normal
+  printf "\033\e[0m"
+}
 
-# Install Vim Plug
-curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
-    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+# display a message in green with a tick by it
+# example
+# echo echo_fail "Yes"
+function echo_pass {
+  # echo first argument in green
+  printf "\e[32m✔ ${1}"
+  # reset colours back to normal
+  printf "\033\e[0m"
+}
 
-# Install node
-curl -sL install-node.now.sh/lts | bash
+function program_is_installed {
+  # set to 1 initially
+  local return_=1
+  # set to 0 if not found
+  type $1 >/dev/null 2>&1 || { local return_=0; }
+  # return value
+  echo "$return_"
+}
 
-# Install yarn
-curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
-echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
-sudo apt-get update && sudo apt-get install yarn
+# Install dependencies
+if [ program_is_installed neovim == 1 ]; then
+    echo_pass neovim
+else
+    echo_fail neovim
+    sudo apt install neovim python3-neovim
+end
+
+if [ program_is_installed node == 1 ]; then
+    echo_pass node
+else
+    echo_fail node
+    curl -sL install-node.now.sh/lts | bash
+end
+
+if [ program_is_installed node == 1 ]; then
+    echo_pass yarn
+else
+    echo_fail yarn
+    curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
+    echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
+    sudo apt-get update && sudo apt-get install yarn
+end
 
 # Install nvim config
-NVIMDIR="~/.config/test"
+NVIMDIR="~/.config/nvim"
 
 if [ ! -d "$NVIMDIR" ]; then
   echo "== ${NVIMDIR} doesn't exist"
@@ -23,4 +61,4 @@ if [ ! -d "$NVIMDIR" ]; then
 fi
 
 echo "== create symlink ${NVIMDIR}/init.vim"
-ln -s .init.vim "${NVIMDIR}/init.vim"
+ln -s ./init.vim "${NVIMDIR}/init.vim"
