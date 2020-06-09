@@ -10,7 +10,8 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'junegunn/goyo.vim'
 Plug 'easymotion/vim-easymotion'
-
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install -all' }
+Plug 'junegunn/fzf.vim'
 call plug#end()
 
 " neoformat
@@ -29,6 +30,13 @@ hi Pmenu guibg=white guifg=black gui=bold
 hi Normal guibg=NONE ctermbg=NONE
 hi NonText guibg=NONE
 hi Comment gui=BOLD
+" highlight current line
+augroup CursorLine
+        au!
+        au VimEnter,WinEnter,BufWinEnter,TabEnter,FocusGained,CmdwinEnter * setlocal cursorline
+        au WinLeave,TabLeave,FocusLost,CmdwinLeave * setlocal nocursorline
+augroup END
+
 "let g:indentLine_setColors=0
 let g:airline_theme='onedark'
 
@@ -52,10 +60,25 @@ map <leader>w <Plug>(easymotion-bd-w)
 map <leader>w <Plug>(easymotion-overwin-w)
 let g:EasyMotion_startofline = 0
 
-" custom functions
-nmap <leader>f :Files<cr>
-nmap <leader><Tab> :bnext<cr>
-nmap <leader><S-Tab> :nprevious<cr>
+" fzf-vim
+let g:fzf_action = {
+  \ 'ctrl-t': 'tab split',
+  \ 'ctrl-s': 'split',
+  \ 'ctrl-v': 'vsplit' }
+let g:fzf_colors =
+\ { 'fg':      ['fg', 'Normal'],
+  \ 'bg':      ['bg', 'Normal'],
+  \ 'hl':      ['fg', 'Comment'],
+  \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+  \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
+  \ 'hl+':     ['fg', 'Statement'],
+  \ 'info':    ['fg', 'Type'],
+  \ 'border':  ['fg', 'Ignore'],
+  \ 'prompt':  ['fg', 'Character'],
+  \ 'pointer': ['fg', 'Exception'],
+  \ 'marker':  ['fg', 'Keyword'],
+  \ 'spinner': ['fg', 'Label'],
+  \ 'header':  ['fg', 'Comment'] }
 
 " general config
 set nu
@@ -75,5 +98,10 @@ autocmd Filetype python setlocal tabstop=2 softtabstop=2 shiftwidth=2
 set expandtab
 set updatetime=100
 let mapleader=","
-map <leader>vimrc :tabe ~/.config/nvim/init.vim<cr>
-map <leader>re :source $MYVIMRC<cr>
+nmap <leader>vimrc :tabe ~/.config/nvim/init.vim<cr>
+nmap <leader>r :source $MYVIMRC<cr>
+
+" custom functions
+nmap <leader>f :Files<cr>
+nmap <leader><Tab> :bnext<cr>
+nmap <leader><S-Tab> :nprevious<cr>
