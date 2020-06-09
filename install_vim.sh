@@ -6,6 +6,7 @@ function echo_fail {
   printf "\e[31m✘ ${1}"
   # reset colours back to normal
   printf "\033\e[0m"
+  echo ""
 }
 
 # display a message in green with a tick by it
@@ -16,6 +17,7 @@ function echo_pass {
   printf "\e[32m✔ ${1}"
   # reset colours back to normal
   printf "\033\e[0m"
+  echo ""
 }
 
 function program_is_installed {
@@ -28,31 +30,31 @@ function program_is_installed {
 }
 
 # Install dependencies
-if [ program_is_installed neovim == 1 ]; then
+if [ $(program_is_installed nvim) == 1 ]; then
     echo_pass neovim
 else
     echo_fail neovim
     sudo apt install neovim python3-neovim
-end
+fi
 
-if [ program_is_installed node == 1 ]; then
+if [ $(program_is_installed node) == 1 ]; then
     echo_pass node
 else
     echo_fail node
     curl -sL install-node.now.sh/lts | bash
-end
+fi
 
-if [ program_is_installed node == 1 ]; then
+if [ $(program_is_installed yarn) == 1 ]; then
     echo_pass yarn
 else
     echo_fail yarn
     curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
     echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
     sudo apt-get update && sudo apt-get install yarn
-end
+fi
 
 # Install nvim config
-NVIMDIR="~/.config/nvim"
+NVIMDIR=~/.config/nvim
 
 if [ ! -d "$NVIMDIR" ]; then
   echo "== ${NVIMDIR} doesn't exist"
@@ -61,4 +63,4 @@ if [ ! -d "$NVIMDIR" ]; then
 fi
 
 echo "== create symlink ${NVIMDIR}/init.vim"
-ln -s ./init.vim "${NVIMDIR}/init.vim"
+ln -s ~/dotfiles/init.vim "${NVIMDIR}/init.vim"
