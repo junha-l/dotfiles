@@ -70,7 +70,11 @@ nmap <silent> ]g <Plug>(coc-diagnostic-next)
 " Use `:Format` to format current buffer
 command! -nargs=0 Format :call CocAction('format')
 " Use `:Fold` to fold current buffer
-command! -nargs=? Fold :call     CocAction('fold', <f-args>)
+command! -nargs=? Fold :call CocAction('fold', <f-args>)
+
+function! Search(word) abort
+  return coc#rpc#notify('search', [a:word])
+endfunction
 
 " Using CocList
 " Show all diagnostics
@@ -89,8 +93,7 @@ nnoremap <silent> <space>j  :<C-u>CocNext<CR>
 nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
 " Resume latest coc list
 nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
-
-
+nnoremap <silent> <space>f  :call Search(input('Enter word to search: '))<CR>
 """"""""""""""""""""""""""""""""""""""""""""""""""""""
 """""""""""""""""""" NeoFormat """""""""""""""""""""""
 """"""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -196,3 +199,7 @@ nmap <leader>r :source $MYVIMRC<cr>
 nmap <leader>f :Files<cr>
 nmap <leader><Tab> :bnext<cr>
 nmap <leader><S-Tab> :nprevious<cr>
+nnoremap <C-j> <C-W><C-j>
+nnoremap <C-k> <C-W><C-k>
+nnoremap <C-h> <C-W><C-h>
+nnoremap <C-l> <C-W><C-l>
