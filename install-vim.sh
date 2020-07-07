@@ -34,14 +34,15 @@ if [ $(program_is_installed nvim) == 1 ]; then
     echo_pass neovim
 else
     echo_fail neovim
-    sudo apt install neovim python3-neovim
+    add-apt-repository ppa:neovim-ppa/stable
+    apt update && apt -y install neovim
 fi
 
 if [ $(program_is_installed node) == 1 ]; then
     echo_pass node
 else
     echo_fail node
-    curl -sL install-node.now.sh/lts | bash
+    curl -sL https://deb.nodesource.com/setup_10.x | bash -
 fi
 
 if [ $(program_is_installed yarn) == 1 ]; then
@@ -50,8 +51,12 @@ else
     echo_fail yarn
     curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
     echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
-    sudo apt-get update && sudo apt-get install yarn
-fi
+    apt update && apt -y install yarn
+fi 
+
+# Install vim plug
+sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
+       https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 
 # Install nvim config
 NVIMDIR=~/.config/nvim
