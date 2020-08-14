@@ -34,8 +34,8 @@ if [ $(program_is_installed nvim) == 1 ]; then
     echo_pass neovim
 else
     echo_fail neovim
-    add-apt-repository ppa:neovim-ppa/stable
-    apt update && apt -y install neovim
+    sudo add-apt-repository ppa:neovim-ppa/stable
+    sudo apt update && sudo apt -y install neovim
 fi
 
 if [ $(program_is_installed node) == 1 ]; then
@@ -51,7 +51,7 @@ else
     echo_fail yarn
     curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
     echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
-    apt update && apt -y install yarn
+    sudo apt update && sudo apt -y install yarn
 fi 
 
 # Install vim plug
