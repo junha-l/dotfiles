@@ -5,6 +5,7 @@ Plug 'scrooloose/nerdcommenter'
 Plug 'machakann/vim-highlightedyank'
 Plug 'airblade/vim-gitgutter'
 Plug 'joshdick/onedark.vim'
+Plug 'morhetz/gruvbox'
 Plug 'Yggdroot/indentLine'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
@@ -98,7 +99,7 @@ nnoremap <silent> <space>f  :call Search(input('Enter word to search: '))<CR>
 """""""""""""""""""" NeoFormat """""""""""""""""""""""
 """"""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:neoformat_enabled_python = ['yapf']
-
+let g:neoformat_anabled_yaml = ['pyaml']
 augroup fmt
         autocmd!
         autocmd BufWritePre * undojoin | Neoformat
@@ -111,6 +112,7 @@ augroup end
 syntax on
 set background=dark
 colorscheme onedark
+"colorscheme gruvbox
 hi Pmenu guibg=white guifg=black gui=bold
 hi Normal guibg=NONE ctermbg=NONE
 hi NonText guibg=NONE
