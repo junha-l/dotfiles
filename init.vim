@@ -190,6 +190,7 @@ set splitbelow
 set smartindent
 set encoding=utf8
 set fillchars=vert:│
+set tabstop=4 softtabstop=4 shiftwidth=4
 autocmd Filetype python setlocal tabstop=2 softtabstop=2 shiftwidth=2
 set expandtab
 set updatetime=100
