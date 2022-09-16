@@ -1,4 +1,5 @@
-FROM nvidia/cuda:10.1-cudnn7-devel-ubuntu18.04
+FROM nvidia/cuda:11.1.1-cudnn8-devel-ubuntu18.04
+SHELL ["/bin/bash", "-c"]
 
 ENV TZ Asia/Seoul
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime
@@ -21,10 +22,11 @@ RUN apt update && apt install -y --no-install-recommends \
         zsh && \
         rm -rf /var/lib/apt/lists/*
 
-WORKDIR /opt
-RUN curl -O https://repo.anaconda.com/archive/Anaconda3-2019.03-Linux-x86_64.sh
-RUN bash Anaconda3-2019.03-Linux-x86_64.sh -b -p /opt/anaconda3
-RUN rm Anaconda3-2019.03-Linux-x86_64.sh
+# Install conda
+WORKDIR /tmp
+RUN curl -O https://repo.anaconda.com/miniconda/Miniconda3-py38_4.10.3-Linux-x86_64.sh
+RUN bash Miniconda3-py38_4.10.3-Linux-x86_64.sh -b -p /opt/miniconda3
+RUN rm Miniconda3-py38_4.10.3-Linux-x86_64.sh
 
 # Set the locale
 RUN sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen && \
@@ -42,7 +44,7 @@ RUN cd dotfiles
 RUN bash dotfiles/install-vim.sh
 RUN bash dotfiles/install-zsh.sh
 RUN bash dotfiles/install-tmux.sh
-RUN /opt/anaconda3/bin/conda init zsh 
+RUN /opt/miniconda3/bin/conda init zsh 
 
 EXPOSE 22
 
