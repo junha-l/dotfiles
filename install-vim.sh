@@ -42,7 +42,8 @@ if [ $(program_is_installed node) == 1 ]; then
     echo_pass node
 else
     echo_fail node
-    curl -sL https://deb.nodesource.com/setup_10.x | bash -
+    curl -sL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
+    sudo apt install -y nodejs
 fi
 
 if [ $(program_is_installed yarn) == 1 ]; then
